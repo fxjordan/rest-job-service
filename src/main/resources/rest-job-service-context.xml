@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+            http://www.springmodules.org/schema/ehcache http://www.springmodules.org/schema/cache/springmodules-ehcache.xsd">
+
+    <bean id="alternativeJdkIdGenerator" class="org.springframework.util.AlternativeJdkIdGenerator" />
+    
+    <!-- Job factory, which allows to use autowiring inside job classes -->
+    <bean id="autowiringJobFactory"
+        class="de.fjobilabs.restjobservice.quartz.AutowiringSpringBeanJobFactory" />
+    
+	<!-- The quartz scheduler configuration -->
+	<bean id="quartzScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="configLocation" value="classpath:quartz.properties" />
+        <property name="quartzProperties" >
+            <props>
+                <prop key="org.quartz.scheduler.instanceName">RestJobScheduler</prop>
+            </props>
+        </property>
+		<property name="jobFactory" ref="autowiringJobFactory" />
+	</bean>
+    
+    <!-- The main configuration of the job service -->
+	<bean id="jobService" class="de.fjobilabs.restjobservice.service.JobService" >
+        <property name="scheduler" ref="quartzScheduler" />
+	</bean>
+    
+    <!-- The job controller configuration -->
+    <bean id="jobController" class="de.fjobilabs.restjobservice.controller.JobController" >
+        <property name="jobService" ref="jobService" />
+        <property name="idGenerator" ref="alternativeJdkIdGenerator" />
+        <property name="jobsRootPath" value="${de.fjobilabs.restjobservice.jobsRootPath:/jobs}" />
+    </bean>
+</beans>
