@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.fjobilabs.restjobservice.domain.JobInfo;
-import de.fjobilabs.restjobservice.resources.RestResource;
 import de.fjobilabs.restjobservice.service.JobService;
+import de.fjobilabs.util.web.RestResource;
 
 /**
  * @author Felix Jordan
