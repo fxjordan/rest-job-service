@@ -18,7 +18,7 @@
     
 	<!-- The quartz scheduler configuration -->
 	<bean id="quartzScheduler"
-		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean" >
 		<property name="configLocation" value="classpath:quartz.properties" />
         <property name="quartzProperties" >
             <props>
@@ -36,7 +36,6 @@
     <!-- The job controller configuration -->
     <bean id="jobController" class="de.fjobilabs.restjobservice.controller.JobController" >
         <property name="jobService" ref="jobService" />
-        <property name="idGenerator" ref="alternativeJdkIdGenerator" />
         <property name="jobsRootPath" value="${de.fjobilabs.restjobservice.jobsRootPath:/jobs}" />
     </bean>
 </beans>

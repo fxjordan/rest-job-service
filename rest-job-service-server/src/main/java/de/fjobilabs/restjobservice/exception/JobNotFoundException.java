@@ -5,23 +5,23 @@ package de.fjobilabs.restjobservice.exception;
  * @since 02.08.2016 - 22:19:42
  * @version 1.0
  */
-public class JobNotExistException extends RuntimeException {
+public class JobNotFoundException extends RuntimeException {
     
     private static final long serialVersionUID = 5918406461735139941L;
     
-    public JobNotExistException() {
+    public JobNotFoundException() {
         super();
     }
     
-    public JobNotExistException(String message) {
+    public JobNotFoundException(String message) {
         super(message);
     }
     
-    public JobNotExistException(String message, Throwable cause) {
+    public JobNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
     
-    public JobNotExistException(Throwable cause) {
+    public JobNotFoundException(Throwable cause) {
         super(cause);
     }
 }

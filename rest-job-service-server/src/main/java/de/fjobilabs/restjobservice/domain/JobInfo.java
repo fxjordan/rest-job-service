@@ -20,6 +20,7 @@ public class JobInfo {
     private SimpleTriggerInfo simpleTrigger;
     private CronTriggerInfo cronTrigger;
     private Map<String, Object> data;
+    private String callback;
     private Date lastExecutionTime;
     private Date nextExecutionTime;
     
@@ -68,6 +69,14 @@ public class JobInfo {
     
     public void setData(Map<String, Object> data) {
         this.data = data;
+    }
+    
+    public String getCallback() {
+        return callback;
+    }
+    
+    public void setCallback(String callback) {
+        this.callback = callback;
     }
     
     @JsonProperty("last-execution-time")

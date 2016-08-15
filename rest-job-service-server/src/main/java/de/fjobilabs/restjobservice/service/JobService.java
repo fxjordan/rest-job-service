@@ -36,8 +36,10 @@ import de.fjobilabs.restjobservice.domain.CronTriggerInfo;
 import de.fjobilabs.restjobservice.domain.JobInfo;
 import de.fjobilabs.restjobservice.domain.SimpleTriggerInfo;
 import de.fjobilabs.restjobservice.exception.InternalSchedulerException;
-import de.fjobilabs.restjobservice.exception.JobNotExistException;
+import de.fjobilabs.restjobservice.exception.InvalidJobTriggerException;
+import de.fjobilabs.restjobservice.exception.JobNotFoundException;
 import de.fjobilabs.restjobservice.exception.MalformedCronExpressionExeption;
+import de.fjobilabs.restjobservice.exception.UnknownJobActionException;
 import de.fjobilabs.restjobservice.quartz.CronExpressionFactoryBean;
 
 /**
@@ -48,6 +50,7 @@ import de.fjobilabs.restjobservice.quartz.CronExpressionFactoryBean;
 public class JobService {
     
     private static final String DEFAULT_JOB_CONFIG_LOCATION = "jobs.properties";
+    private static final String JOB_GROUP = "rest-jobs";
     
     private static final Logger logger = LoggerFactory.getLogger(JobService.class);
     
@@ -80,8 +83,8 @@ public class JobService {
         }
     }
     
-    public JobInfo getJob(String group, String name) {
-        JobKey jobKey = new JobKey(name, group);
+    public JobInfo getJob(String name) {
+        JobKey jobKey = new JobKey(name, JOB_GROUP);
         JobDetail jobDetail;
         try {
             jobDetail = this.scheduler.getJobDetail(jobKey);
@@ -89,11 +92,11 @@ public class JobService {
             throw new InternalSchedulerException(e);
         }
         if (jobDetail == null) {
-            return null;
+            throw new JobNotFoundException("Job " + name + " does not exist");
         }
         JobInfo jobInfo = new JobInfo();
         jobInfo.setName(name);
-        jobInfo.setAction(getActionFromGroup(group));
+        jobInfo.setAction(getActionFromJobClass(jobDetail.getJobClass()));
         jobInfo.setData(jobDetail.getJobDataMap());
         
         Trigger trigger = getJobTrigger(jobKey);
@@ -115,6 +118,8 @@ public class JobService {
     
     public void createJob(JobInfo jobInfo) {
         JobDetail jobDetail = createJobDetail(jobInfo);
+        jobDetail.getJobDataMap().put("job-callback-url", jobInfo.getCallback());
+        
         Trigger trigger = createTrigger(jobInfo);
         
         try {
@@ -125,17 +130,18 @@ public class JobService {
     }
     
     public void updateJob(JobInfo jobInfo) {
-        JobKey jobKey = new JobKey(jobInfo.getName(), jobInfo.getAction() + "-group");
+        JobKey jobKey = new JobKey(jobInfo.getName(), JOB_GROUP);
         
         try {
             if (!this.scheduler.checkExists(jobKey)) {
-                throw new JobNotExistException("The job '" + jobKey + "' does not exist");
+                throw new JobNotFoundException("The job '" + jobKey + "' does not exist");
             }
         } catch (SchedulerException e) {
             throw new InternalSchedulerException(e);
         }
         
         JobDetail jobDetail = createJobDetail(jobInfo);
+        jobDetail.getJobDataMap().put("job-callback-url", jobInfo.getCallback());
         
         Set<Trigger> triggers = new HashSet<>(1);
         triggers.add(createTrigger(jobInfo));
@@ -147,26 +153,18 @@ public class JobService {
         }
     }
     
-    public void deleteJob(String group, String name) {
+    public void deleteJob(String name) {
         try {
-            scheduler.deleteJob(new JobKey(name, group));
+            scheduler.deleteJob(new JobKey(name, JOB_GROUP));
         } catch (SchedulerException e) {
             throw new InternalSchedulerException(e);
         }
     }
     
-    public List<String> getGroupNames() {
-        try {
-            return this.scheduler.getJobGroupNames();
-        } catch (SchedulerException e) {
-            throw new InternalSchedulerException(e);
-        }
-    }
-    
-    public List<String> getJobNames(String group) {
+    public List<String> getJobNames() {
         Set<JobKey> jobKeys;
         try {
-            jobKeys = this.scheduler.getJobKeys(GroupMatcher.groupEquals(group));
+            jobKeys = this.scheduler.getJobKeys(GroupMatcher.groupEquals(JOB_GROUP));
         } catch (SchedulerException e) {
             throw new InternalSchedulerException(e);
         }
@@ -196,9 +194,12 @@ public class JobService {
     private JobDetail createJobDetail(JobInfo jobInfo) {
         JobDetailFactoryBean jobDetail = new JobDetailFactoryBean();
         jobDetail.setName(jobInfo.getName());
-        jobDetail.setGroup(jobInfo.getAction() + "-group");
+        jobDetail.setGroup(JOB_GROUP);
         jobDetail.setJobClass(getJobClass(jobInfo.getAction()));
-        jobDetail.setJobDataAsMap(jobInfo.getData());
+        Map<String, Object> jobData = jobInfo.getData();
+        if (jobData != null) {
+            jobDetail.setJobDataAsMap(jobData);
+        }
         jobDetail.afterPropertiesSet();
         return jobDetail.getObject();
     }
@@ -206,7 +207,7 @@ public class JobService {
     private Trigger createTrigger(JobInfo jobInfo) {
         if (jobInfo.getSimpleTrigger() != null) {
             if (jobInfo.getCronTrigger() != null) {
-                throw new IllegalArgumentException(
+                throw new InvalidJobTriggerException(
                         "Job must either have a simple or a cron trigger");
             }
             return createSimpleTrigger(jobInfo);
@@ -217,7 +218,7 @@ public class JobService {
                 throw new MalformedCronExpressionExeption(e);
             }
         } else {
-            throw new IllegalArgumentException("Job must either have a simple or a cron trigger");
+            throw new InvalidJobTriggerException("Job must either have a simple or a cron trigger");
         }
     }
     
@@ -226,7 +227,7 @@ public class JobService {
         
         SimpleTriggerFactoryBean simpleTrigger = new SimpleTriggerFactoryBean();
         simpleTrigger.setName(jobInfo.getName() + "-trigger");
-        simpleTrigger.setGroup(jobInfo.getAction() + "-group");
+        simpleTrigger.setGroup(JOB_GROUP);
         simpleTrigger.setRepeatCount(simpleTriggerInfo.getRepeatCount());
         simpleTrigger.setRepeatInterval(simpleTriggerInfo.getRepeatIntervall());
         simpleTrigger.setStartTime(simpleTriggerInfo.getStartTime());
@@ -237,7 +238,7 @@ public class JobService {
     private CronTrigger createCronTrigger(JobInfo jobInfo) throws ParseException {
         CronTriggerFactoryBean cronTrigger = new CronTriggerFactoryBean();
         cronTrigger.setName(jobInfo.getName() + "-trigger");
-        cronTrigger.setGroup(jobInfo.getAction() + "-group");
+        cronTrigger.setGroup(JOB_GROUP);
         cronTrigger.setCronExpression(
                 createCronExpression(jobInfo.getCronTrigger()).getCronExpression());
         cronTrigger.afterPropertiesSet();
@@ -260,7 +261,7 @@ public class JobService {
     private Class<?> getJobClass(String action) {
         Class<?> jobClass = this.jobClasses.get(action);
         if (jobClass == null) {
-            throw new IllegalArgumentException("Unknown job action '" + action + "'");
+            throw new UnknownJobActionException("Unknown job action '" + action + "'");
         }
         return jobClass;
     }
@@ -303,7 +304,8 @@ public class JobService {
         return triggers.get(0);
     }
     
-    private String getActionFromGroup(String group) {
-        return group.substring(0, group.length() - "-group".length());
+    private String getActionFromJobClass(Class<?> jobClass) {
+        return jobClasses.entrySet().stream().filter(entry -> entry.getValue().equals(jobClass))
+                .findFirst().get().getKey();
     }
 }

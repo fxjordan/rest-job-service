@@ -8,64 +8,21 @@
         <version>1.4.0.RELEASE</version>
     </parent>
 
-    <groupId>de.fjobilabs</groupId>
-    <artifactId>rest-job-service</artifactId>
+    <groupId>de.fjobilabs.restjobservice</groupId>
+    <artifactId>rest-job-service-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <name>REST Job Service</name>
+    <name>REST Job Service Parent</name>
     <url>https://bitbucket.org/fxjordan/rest-job-service</url>
     <issueManagement>
         <url>https://bitbucket.org/fxjordan/rest-job-service/issues</url>
     </issueManagement>
 
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.fjobilabs</groupId>
-            <artifactId>web-utils</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>2.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>rest-job-service-server</module>
+        <module>rest-job-service-client</module>
+    </modules>
 
     <build>
         <plugins>

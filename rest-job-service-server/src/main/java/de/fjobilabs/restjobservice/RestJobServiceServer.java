@@ -3,6 +3,7 @@ package de.fjobilabs.restjobservice;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
 
 /**
  * @author Felix Jordan
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.ImportResource;
  */
 @Configuration
 @ComponentScan
-@ImportResource("rest-job-service-context.xml")
-public class RestJobService {
+@ImportResource("rest-job-service-server-context.xml")
+@PropertySource("rest-job-service-server.properties")
+public class RestJobServiceServer {
 }
