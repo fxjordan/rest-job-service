@@ -16,6 +16,10 @@
     <bean id="autowiringJobFactory"
         class="de.fjobilabs.restjobservice.quartz.AutowiringSpringBeanJobFactory" />
     
+    <bean id="jobListener" class="de.fjobilabs.restjobservice.quartz.BackCallingJobListener" >
+        <property name="name" value="back-calling-job-listener" />
+    </bean>
+    
 	<!-- The quartz scheduler configuration -->
 	<bean id="quartzScheduler"
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean" >
@@ -26,6 +30,11 @@
             </props>
         </property>
 		<property name="jobFactory" ref="autowiringJobFactory" />
+        <property name="globalJobListeners" >
+            <list>
+                <ref bean="jobListener" />
+            </list>
+        </property>
 	</bean>
     
     <!-- The main configuration of the job service -->

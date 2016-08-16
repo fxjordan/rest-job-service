@@ -5,11 +5,15 @@ package de.fjobilabs.restjobservice.domain;
  * @since 13.08.2016 - 00:16:44
  * @version 1.0
  */
-public class JobCallbackData<T> {
+public class JobCallbackData {
+    
+    public static final String SUCCESS = "success";
+    public static final String FAIL = "fail";
+    public static final String ERROR = "error";
     
     private String jobName;
-    private T result;
-    private Exception exception;
+    private String status;
+    private Object result;
     
     public String getJobName() {
         return jobName;
@@ -19,20 +23,19 @@ public class JobCallbackData<T> {
         this.jobName = jobName;
     }
     
-    public T getResult() {
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    public Object getResult() {
         return result;
     }
     
-    public void setResult(T result) {
+    public void setResult(Object result) {
         this.result = result;
     }
-    
-    public Exception getException() {
-        return exception;
-    }
-    
-    public void setException(Exception exception) {
-        this.exception = exception;
-    }
-    
 }
