@@ -68,7 +68,8 @@ public class RestJobServiceTemplate extends AbstractRestJobServiceOperations {
     public JobInfo createJob(JobInfo jobInfo) {
         RestResource response = this.restTemplate.postForResource(this.webServiceRootPath, jobInfo);
         if (!response.getStatus().equals(RestResource.SUCCESS)) {
-            throw new RestJobServiceTemplateException("Failed to create job " + jobInfo);
+            throw new RestJobServiceTemplateException("Failed to create job " + jobInfo +
+                    " (" + response.getData() + ")");
         }
         return this.objectMapper.convertValue(response.getData(), JobInfo.class);
     }

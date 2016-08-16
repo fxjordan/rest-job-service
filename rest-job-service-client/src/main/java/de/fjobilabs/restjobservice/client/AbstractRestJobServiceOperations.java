@@ -141,6 +141,7 @@ public abstract class AbstractRestJobServiceOperations implements RestJobService
         jobInfo.setAction(action);
         jobInfo.setData(data);
         jobInfo.setSimpleTrigger(trigger);
+        jobInfo.setCallback(callback.toString());
         return createJob(jobInfo);
     }
     
@@ -157,6 +158,7 @@ public abstract class AbstractRestJobServiceOperations implements RestJobService
         jobInfo.setAction(action);
         jobInfo.setData(data);
         jobInfo.setCronTrigger(trigger);
+        jobInfo.setCallback(callback.toString());
         return createJob(jobInfo);
     }
     
