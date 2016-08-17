@@ -13,11 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
 import de.fjobilabs.restjobservice.domain.ExceptionInfo;
 import de.fjobilabs.restjobservice.domain.JobCallbackData;
 import de.fjobilabs.restjobservice.exception.ExceptionHandlerException;
+import de.fjobilabs.springutils.web.client.RestResourceTemplate;
+import de.fjobilabs.springutils.web.resources.RestResource;
 
 /**
  * @author Felix Jordan
@@ -29,6 +30,8 @@ public class BackCallingJobListener implements JobListener {
     private static final Logger logger = LoggerFactory.getLogger(BackCallingJobListener.class);
     
     private String name;
+    
+    private RestResourceTemplate RestTemplate = new RestResourceTemplate();
     
     @Override
     public String getName() {
@@ -77,12 +80,22 @@ public class BackCallingJobListener implements JobListener {
             applyDataFromRestJob(data, context.getResult(), exception, (RestJob) jobInstance);
         }
         
-        RestTemplate restTemplate = new RestTemplate();
-        
+        RestResource response;
         try {
-            restTemplate.postForLocation(callbackUrl, data);
+            response = this.RestTemplate.putForResource(callbackUrl, data);
         } catch (RestClientException e) {
             logger.error("Failed to call job callback for job " + jobKey, e);
+            return;
+        }
+        
+        switch (response.getStatus()) {
+        case RestResource.SUCCESS:
+            logger.debug("Sucessfully called back");
+            break;
+        case RestResource.FAIL:
+        case RestResource.ERROR:
+            logger.warn("Error whilec callign back (" + response.getData() + ")");
+            break;
         }
     }
     
