@@ -19,16 +19,11 @@ public class RestJobServiceTemplate extends AbstractRestJobServiceOperations {
     
     private RestResourceTemplate restTemplate = new RestResourceTemplate();
     private ObjectMapper objectMapper = new ObjectMapper();
-    private String webServiceRootPath;
-    
-    public RestJobServiceTemplate(String webServiceRootPath) {
-        this.webServiceRootPath = webServiceRootPath;
-    }
     
     @Override
     @SuppressWarnings("unchecked")
-    public List<String> getJobNames() {
-        RestResource response = this.restTemplate.getForResource(this.webServiceRootPath);
+    public List<String> getJobNames(String uri) {
+        RestResource response = this.restTemplate.getForResource(uri);
         if (!response.getStatus().equals(RestResource.SUCCESS)) {
             throw new RestJobServiceTemplateException("Failed to get job names");
         }
@@ -36,9 +31,9 @@ public class RestJobServiceTemplate extends AbstractRestJobServiceOperations {
     }
     
     @Override
-    public JobInfo getJobInfo(String jobName) {
+    public JobInfo getJobInfo(String uri, String jobName) {
         RestResource response = this.restTemplate
-                .getForResource(this.webServiceRootPath + "/{job-id}", jobName);
+                .getForResource(uri + "/{job-id}", jobName);
         if (!response.getStatus().equals(RestResource.SUCCESS)) {
             throw new RestJobServiceTemplateException("Failed to get info for job " + jobName);
         }
@@ -46,9 +41,9 @@ public class RestJobServiceTemplate extends AbstractRestJobServiceOperations {
     }
     
     @Override
-    public JobInfo updateJob(JobInfo jobInfo) {
+    public JobInfo updateJob(String uri, JobInfo jobInfo) {
         RestResource response = this.restTemplate
-                .putForResource(this.webServiceRootPath + "/{job-id}", jobInfo, jobInfo.getName());
+                .putForResource(uri + "/{job-id}", jobInfo, jobInfo.getName());
         if (!response.getStatus().equals(RestResource.SUCCESS)) {
             throw new RestJobServiceTemplateException("Failed to put job " + jobInfo);
         }
@@ -56,17 +51,17 @@ public class RestJobServiceTemplate extends AbstractRestJobServiceOperations {
     }
     
     @Override
-    public void deleteJob(String jobName) {
+    public void deleteJob(String uri, String jobName) {
         RestResource response = this.restTemplate
-                .deleteForResource(this.webServiceRootPath + "/{job-id}", jobName);
+                .deleteForResource(uri + "/{job-id}", jobName);
         if (!response.getStatus().equals(RestResource.SUCCESS)) {
             throw new RestJobServiceTemplateException("Failed to delete job " + jobName);
         }
     }
     
     @Override
-    public JobInfo createJob(JobInfo jobInfo) {
-        RestResource response = this.restTemplate.postForResource(this.webServiceRootPath, jobInfo);
+    public JobInfo createJob(String uri, JobInfo jobInfo) {
+        RestResource response = this.restTemplate.postForResource(uri, jobInfo);
         if (!response.getStatus().equals(RestResource.SUCCESS)) {
             throw new RestJobServiceTemplateException("Failed to create job " + jobInfo +
                     " (" + response.getData() + ")");
@@ -88,13 +83,5 @@ public class RestJobServiceTemplate extends AbstractRestJobServiceOperations {
     
     public void setObjectMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-    }
-    
-    public String getWebServiceRootPath() {
-        return webServiceRootPath;
-    }
-    
-    public void setWebServiceRootPath(String webServiceRootPath) {
-        this.webServiceRootPath = webServiceRootPath;
     }
 }

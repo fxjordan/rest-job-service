@@ -17,54 +17,54 @@ import de.fjobilabs.restjobservice.client.domain.SimpleTriggerInfo;
  */
 public interface CallbackRestJobServiceOperations extends RestJobServiceOperations {
     
-    public JobInfo createJob(String action, Class<? extends JobCallback> callback);
+    public JobInfo createJob(String uri, String action, Class<? extends JobCallback> callback);
     
-    public JobInfo createJob(String action, Map<String, Object> data,
+    public JobInfo createJob(String uri, String action, Map<String, Object> data,
             Class<? extends JobCallback> callback);
             
-    public JobInfo createJob(String action, SimpleTriggerInfo trigger,
+    public JobInfo createJob(String uri, String action, SimpleTriggerInfo trigger,
             Class<? extends JobCallback> callback);
             
-    public JobInfo createJob(String action, Map<String, Object> data, SimpleTriggerInfo trigger,
+    public JobInfo createJob(String uri, String action, Map<String, Object> data, SimpleTriggerInfo trigger,
             Class<? extends JobCallback> callback);
             
-    public JobInfo createJob(String action, CronTriggerInfo trigger,
+    public JobInfo createJob(String uri, String action, CronTriggerInfo trigger,
             Class<? extends JobCallback> callback);
             
-    public JobInfo createJob(String action, Map<String, Object> data, CronTriggerInfo trigger,
+    public JobInfo createJob(String uri, String action, Map<String, Object> data, CronTriggerInfo trigger,
             Class<? extends JobCallback> callback);
             
-    public JobInfo createJob(String id, String action, Class<? extends JobCallback> callback);
+    public JobInfo createJob(String uri, String id, String action, Class<? extends JobCallback> callback);
     
-    public JobInfo createJob(String id, String action, Map<String, Object> data,
+    public JobInfo createJob(String uri, String id, String action, Map<String, Object> data,
             Class<? extends JobCallback> callback);
             
-    public JobInfo createJob(String id, String action, SimpleTriggerInfo trigger,
+    public JobInfo createJob(String uri, String id, String action, SimpleTriggerInfo trigger,
             Class<? extends JobCallback> callback);
             
-    public JobInfo createJob(String id, String action, Map<String, Object> data,
+    public JobInfo createJob(String uri, String id, String action, Map<String, Object> data,
             SimpleTriggerInfo trigger, Class<? extends JobCallback> callback);
             
-    public JobInfo createJob(String id, String action, CronTriggerInfo trigger,
+    public JobInfo createJob(String uri, String id, String action, CronTriggerInfo trigger,
             Class<? extends JobCallback> callback);
             
-    public JobInfo createJob(String id, String action, Map<String, Object> data,
+    public JobInfo createJob(String uri, String id, String action, Map<String, Object> data,
             CronTriggerInfo trigger, Class<? extends JobCallback> callback);
             
-    public JobInfo updateJob(String id, String action, Class<? extends JobCallback> callback);
+    public JobInfo updateJob(String uri, String id, String action, Class<? extends JobCallback> callback);
     
-    public JobInfo updateJob(String id, String action, Map<String, Object> data,
+    public JobInfo updateJob(String uri, String id, String action, Map<String, Object> data,
             Class<? extends JobCallback> callback);
             
-    public JobInfo updateJob(String id, String action, SimpleTriggerInfo trigger,
+    public JobInfo updateJob(String uri, String id, String action, SimpleTriggerInfo trigger,
             Class<? extends JobCallback> callback);
             
-    public JobInfo updateJob(String id, String action, Map<String, Object> data,
+    public JobInfo updateJob(String uri, String id, String action, Map<String, Object> data,
             SimpleTriggerInfo trigger, Class<? extends JobCallback> callback);
             
-    public JobInfo updateJob(String id, String action, CronTriggerInfo trigger,
+    public JobInfo updateJob(String uri, String id, String action, CronTriggerInfo trigger,
             Class<? extends JobCallback> callback);
             
-    public JobInfo updateJob(String id, String action, Map<String, Object> data,
+    public JobInfo updateJob(String uri, String id, String action, Map<String, Object> data,
             CronTriggerInfo trigger, Class<? extends JobCallback> callback);
 }

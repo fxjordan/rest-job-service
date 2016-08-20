@@ -22,115 +22,113 @@ public class CallbackRestJobServiceTemplate extends RestJobServiceTemplate
     
     private JobCallbackService jobCallbackService;
     
-    public CallbackRestJobServiceTemplate(String webServiceRootPath,
-            JobCallbackService jobCallbackService) {
-        super(webServiceRootPath);
+    public CallbackRestJobServiceTemplate(JobCallbackService jobCallbackService) {
         this.jobCallbackService = jobCallbackService;
     }
     
     @Override
-    public JobInfo createJob(String action, Class<? extends JobCallback> callback) {
-        return createJob(action, createCallback(callback));
+    public JobInfo createJob(String uri, String action, Class<? extends JobCallback> callback) {
+        return createJob(uri, action, createCallback(callback));
     }
     
     @Override
-    public JobInfo createJob(String action, Map<String, Object> data,
+    public JobInfo createJob(String uri, String action, Map<String, Object> data,
             Class<? extends JobCallback> callback) {
-        return createJob(action, data, createCallback(callback));
+        return createJob(uri, action, data, createCallback(callback));
     }
     
     @Override
-    public JobInfo createJob(String action, SimpleTriggerInfo trigger,
+    public JobInfo createJob(String uri, String action, SimpleTriggerInfo trigger,
             Class<? extends JobCallback> callback) {
-        return createJob(action, trigger, createCallback(callback));
+        return createJob(uri, action, trigger, createCallback(callback));
     }
     
     @Override
-    public JobInfo createJob(String action, Map<String, Object> data, SimpleTriggerInfo trigger,
+    public JobInfo createJob(String uri, String action, Map<String, Object> data, SimpleTriggerInfo trigger,
             Class<? extends JobCallback> callback) {
-        return createJob(action, data, trigger, createCallback(callback));
+        return createJob(uri, action, data, trigger, createCallback(callback));
     }
     
     @Override
-    public JobInfo createJob(String action, CronTriggerInfo trigger,
+    public JobInfo createJob(String uri, String action, CronTriggerInfo trigger,
             Class<? extends JobCallback> callback) {
-        return createJob(action, trigger, createCallback(callback));
+        return createJob(uri, action, trigger, createCallback(callback));
     }
     
     @Override
-    public JobInfo createJob(String action, Map<String, Object> data, CronTriggerInfo trigger,
+    public JobInfo createJob(String uri, String action, Map<String, Object> data, CronTriggerInfo trigger,
             Class<? extends JobCallback> callback) {
-        return createJob(action, data, trigger, createCallback(callback));
+        return createJob(uri, action, data, trigger, createCallback(callback));
     }
     
     @Override
-    public JobInfo createJob(String id, String action, Class<? extends JobCallback> callback) {
-        return createJob(id, action, createCallback(callback));
+    public JobInfo createJob(String uri, String id, String action, Class<? extends JobCallback> callback) {
+        return createJob(uri, id, action, createCallback(callback));
     }
     
     @Override
-    public JobInfo createJob(String id, String action, Map<String, Object> data,
+    public JobInfo createJob(String uri, String id, String action, Map<String, Object> data,
             Class<? extends JobCallback> callback) {
-        return createJob(id, action, data, createCallback(callback));
+        return createJob(uri, id, action, data, createCallback(callback));
     }
     
     @Override
-    public JobInfo createJob(String id, String action, SimpleTriggerInfo trigger,
+    public JobInfo createJob(String uri, String id, String action, SimpleTriggerInfo trigger,
             Class<? extends JobCallback> callback) {
-        return createJob(id, action, trigger, createCallback(callback));
+        return createJob(uri, id, action, trigger, createCallback(callback));
     }
     
     @Override
-    public JobInfo createJob(String id, String action, Map<String, Object> data,
+    public JobInfo createJob(String uri, String id, String action, Map<String, Object> data,
             SimpleTriggerInfo trigger, Class<? extends JobCallback> callback) {
-        return createJob(id, action, data, trigger, createCallback(callback));
+        return createJob(uri, id, action, data, trigger, createCallback(callback));
     }
     
     @Override
-    public JobInfo createJob(String id, String action, CronTriggerInfo trigger,
+    public JobInfo createJob(String uri, String id, String action, CronTriggerInfo trigger,
             Class<? extends JobCallback> callback) {
-        return createJob(id, action, trigger, createCallback(callback));
+        return createJob(uri, id, action, trigger, createCallback(callback));
     }
     
     @Override
-    public JobInfo createJob(String id, String action, Map<String, Object> data,
+    public JobInfo createJob(String uri, String id, String action, Map<String, Object> data,
             CronTriggerInfo trigger, Class<? extends JobCallback> callback) {
-        return createJob(id, action, data, trigger, createCallback(callback));
+        return createJob(uri, id, action, data, trigger, createCallback(callback));
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, Class<? extends JobCallback> callback) {
-        return updateJob(id, action, createCallback(callback));
+    public JobInfo updateJob(String uri, String id, String action, Class<? extends JobCallback> callback) {
+        return updateJob(uri, id, action, createCallback(callback));
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, Map<String, Object> data,
+    public JobInfo updateJob(String uri, String id, String action, Map<String, Object> data,
             Class<? extends JobCallback> callback) {
-        return updateJob(id, action, data, createCallback(callback));
+        return updateJob(uri, id, action, data, createCallback(callback));
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, SimpleTriggerInfo trigger,
+    public JobInfo updateJob(String uri, String id, String action, SimpleTriggerInfo trigger,
             Class<? extends JobCallback> callback) {
-        return updateJob(id, action, trigger, createCallback(callback));
+        return updateJob(uri, id, action, trigger, createCallback(callback));
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, Map<String, Object> data,
+    public JobInfo updateJob(String uri, String id, String action, Map<String, Object> data,
             SimpleTriggerInfo trigger, Class<? extends JobCallback> callback) {
-        return updateJob(id, action, data, trigger, createCallback(callback));
+        return updateJob(uri, id, action, data, trigger, createCallback(callback));
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, CronTriggerInfo trigger,
+    public JobInfo updateJob(String uri, String id, String action, CronTriggerInfo trigger,
             Class<? extends JobCallback> callback) {
-        return updateJob(id, action, trigger, createCallback(callback));
+        return updateJob(uri, id, action, trigger, createCallback(callback));
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, Map<String, Object> data,
+    public JobInfo updateJob(String uri, String id, String action, Map<String, Object> data,
             CronTriggerInfo trigger, Class<? extends JobCallback> callback) {
-        return updateJob(id, action, data, trigger, createCallback(callback));
+        return updateJob(uri, id, action, data, trigger, createCallback(callback));
     }
     
     private URL createCallback(Class<? extends JobCallback> callbackClass) {

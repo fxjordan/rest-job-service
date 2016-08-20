@@ -21,120 +21,120 @@ public abstract class AbstractRestJobServiceOperations implements RestJobService
     private IdGenerator idGenerator = new AlternativeJdkIdGenerator();
     
     @Override
-    public JobInfo createJob(String action) {
-        return createJob(action, (Map<String, Object>) null, (URL) null);
+    public JobInfo createJob(String uri, String action) {
+        return createJob(uri, action, (Map<String, Object>) null, (URL) null);
     }
     
     @Override
-    public JobInfo createJob(String action, Map<String, Object> data) {
-        return createJob(action, data, (URL) null);
+    public JobInfo createJob(String uri, String action, Map<String, Object> data) {
+        return createJob(uri, action, data, (URL) null);
     }
     
     @Override
-    public JobInfo createJob(String action, SimpleTriggerInfo trigger) {
-        return createJob(action, (Map<String, Object>) null, trigger, null);
+    public JobInfo createJob(String uri, String action, SimpleTriggerInfo trigger) {
+        return createJob(uri, action, (Map<String, Object>) null, trigger, null);
     }
     
     @Override
-    public JobInfo createJob(String action, Map<String, Object> data, SimpleTriggerInfo trigger) {
-        return createJob(action, data, trigger, null);
+    public JobInfo createJob(String uri, String action, Map<String, Object> data, SimpleTriggerInfo trigger) {
+        return createJob(uri, action, data, trigger, null);
     }
     
     @Override
-    public JobInfo createJob(String action, CronTriggerInfo trigger) {
-        return createJob(action, (Map<String, Object>) null, trigger, null);
+    public JobInfo createJob(String uri, String action, CronTriggerInfo trigger) {
+        return createJob(uri, action, (Map<String, Object>) null, trigger, null);
     }
     
     @Override
-    public JobInfo createJob(String action, Map<String, Object> data, CronTriggerInfo trigger) {
-        return createJob(action, data, trigger, null);
+    public JobInfo createJob(String uri, String action, Map<String, Object> data, CronTriggerInfo trigger) {
+        return createJob(uri, action, data, trigger, null);
     }
     
     @Override
-    public JobInfo createJob(String action, URL callback) {
-        return createJob(action, (Map<String, Object>) null, callback);
+    public JobInfo createJob(String uri, String action, URL callback) {
+        return createJob(uri, action, (Map<String, Object>) null, callback);
     }
     
     @Override
-    public JobInfo createJob(String action, Map<String, Object> data, URL callback) {
+    public JobInfo createJob(String uri, String action, Map<String, Object> data, URL callback) {
         SimpleTriggerInfo trigger = new SimpleTriggerInfo();
         trigger.setRepeatCount(0);
-        return createJob(action, data, trigger, callback);
+        return createJob(uri, action, data, trigger, callback);
     }
     
     @Override
-    public JobInfo createJob(String action, SimpleTriggerInfo trigger, URL callback) {
-        return createJob(action, (Map<String, Object>) null, trigger, callback);
+    public JobInfo createJob(String uri, String action, SimpleTriggerInfo trigger, URL callback) {
+        return createJob(uri, action, (Map<String, Object>) null, trigger, callback);
     }
     
     @Override
-    public JobInfo createJob(String action, Map<String, Object> data, SimpleTriggerInfo trigger,
+    public JobInfo createJob(String uri, String action, Map<String, Object> data, SimpleTriggerInfo trigger,
             URL callback) {
         return createJob(this.idGenerator.generateId().toString(), action, data, trigger, callback);
     }
     
     @Override
-    public JobInfo createJob(String action, CronTriggerInfo trigger, URL callback) {
-        return createJob(action, (Map<String, Object>) null, trigger, callback);
+    public JobInfo createJob(String uri, String action, CronTriggerInfo trigger, URL callback) {
+        return createJob(uri, action, (Map<String, Object>) null, trigger, callback);
     }
     
     @Override
-    public JobInfo createJob(String action, Map<String, Object> data, CronTriggerInfo trigger,
+    public JobInfo createJob(String uri, String action, Map<String, Object> data, CronTriggerInfo trigger,
             URL callback) {
         return createJob(this.idGenerator.generateId().toString(), action, data, trigger, callback);
     }
     
     @Override
-    public JobInfo createJob(String id, String action) {
-        return createJob(id, action, (Map<String, Object>) null, (URL) null);
+    public JobInfo createJob(String uri, String id, String action) {
+        return createJob(uri, id, action, (Map<String, Object>) null, (URL) null);
     }
     
     @Override
-    public JobInfo createJob(String id, String action, Map<String, Object> data) {
-        return createJob(id, action, data, (URL) null);
+    public JobInfo createJob(String uri, String id, String action, Map<String, Object> data) {
+        return createJob(uri, id, action, data, (URL) null);
     }
     
     @Override
-    public JobInfo createJob(String id, String action, SimpleTriggerInfo trigger) {
-        return createJob(id, action, null, trigger, null);
+    public JobInfo createJob(String uri, String id, String action, SimpleTriggerInfo trigger) {
+        return createJob(uri, id, action, null, trigger, null);
     }
     
     @Override
-    public JobInfo createJob(String id, String action, Map<String, Object> data,
+    public JobInfo createJob(String uri, String id, String action, Map<String, Object> data,
             SimpleTriggerInfo trigger) {
-        return createJob(id, action, data, trigger, null);
+        return createJob(uri, id, action, data, trigger, null);
     }
     
     @Override
-    public JobInfo createJob(String id, String action, CronTriggerInfo trigger) {
-        return createJob(id, action, null, trigger, null);
+    public JobInfo createJob(String uri, String id, String action, CronTriggerInfo trigger) {
+        return createJob(uri, id, action, null, trigger, null);
     }
     
     @Override
-    public JobInfo createJob(String id, String action, Map<String, Object> data,
+    public JobInfo createJob(String uri, String id, String action, Map<String, Object> data,
             CronTriggerInfo trigger) {
-        return createJob(id, action, data, trigger, null);
+        return createJob(uri, id, action, data, trigger, null);
     }
     
     @Override
-    public JobInfo createJob(String id, String action, URL callback) {
-        return createJob(id, action, (Map<String, Object>) null, callback);
+    public JobInfo createJob(String uri, String id, String action, URL callback) {
+        return createJob(uri, id, action, (Map<String, Object>) null, callback);
     }
     
     @Override
-    public JobInfo createJob(String id, String action, Map<String, Object> data, URL callback) {
+    public JobInfo createJob(String uri, String id, String action, Map<String, Object> data, URL callback) {
         SimpleTriggerInfo trigger = new SimpleTriggerInfo();
         trigger.setRepeatCount(0);
-        return createJob(id, action, data, trigger, callback);
+        return createJob(uri, id, action, data, trigger, callback);
     }
     
     @Override
-    public JobInfo createJob(String id, String action, SimpleTriggerInfo trigger, URL callback) {
-        return createJob(id, action, null, trigger, callback);
+    public JobInfo createJob(String uri, String id, String action, SimpleTriggerInfo trigger, URL callback) {
+        return createJob(uri, id, action, null, trigger, callback);
     }
     
     @Override
-    public JobInfo createJob(String id, String action, Map<String, Object> data,
+    public JobInfo createJob(String uri, String id, String action, Map<String, Object> data,
             SimpleTriggerInfo trigger, URL callback) {
         JobInfo jobInfo = new JobInfo();
         jobInfo.setName(id);
@@ -142,16 +142,16 @@ public abstract class AbstractRestJobServiceOperations implements RestJobService
         jobInfo.setData(data);
         jobInfo.setSimpleTrigger(trigger);
         jobInfo.setCallback(callback.toString());
-        return createJob(jobInfo);
+        return createJob(uri, jobInfo);
     }
     
     @Override
-    public JobInfo createJob(String id, String action, CronTriggerInfo trigger, URL callback) {
-        return createJob(id, action, null, trigger, callback);
+    public JobInfo createJob(String uri, String id, String action, CronTriggerInfo trigger, URL callback) {
+        return createJob(uri, id, action, null, trigger, callback);
     }
     
     @Override
-    public JobInfo createJob(String id, String action, Map<String, Object> data,
+    public JobInfo createJob(String uri, String id, String action, Map<String, Object> data,
             CronTriggerInfo trigger, URL callback) {
         JobInfo jobInfo = new JobInfo();
         jobInfo.setName(id);
@@ -159,99 +159,99 @@ public abstract class AbstractRestJobServiceOperations implements RestJobService
         jobInfo.setData(data);
         jobInfo.setCronTrigger(trigger);
         jobInfo.setCallback(callback.toString());
-        return createJob(jobInfo);
+        return createJob(uri, jobInfo);
     }
     
     @Override
-    public JobInfo updateJob(String id, String action) {
-        return updateJob(id, action, (Map<String, Object>) null, (URL) null);
+    public JobInfo updateJob(String uri, String id, String action) {
+        return updateJob(uri, id, action, (Map<String, Object>) null, (URL) null);
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, Map<String, Object> data) {
-        return updateJob(id, action, data, (URL) null);
+    public JobInfo updateJob(String uri, String id, String action, Map<String, Object> data) {
+        return updateJob(uri, id, action, data, (URL) null);
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, SimpleTriggerInfo trigger) {
-        return updateJob(id, action, null, trigger, null);
+    public JobInfo updateJob(String uri, String id, String action, SimpleTriggerInfo trigger) {
+        return updateJob(uri, id, action, null, trigger, null);
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, Map<String, Object> data,
+    public JobInfo updateJob(String uri, String id, String action, Map<String, Object> data,
             SimpleTriggerInfo trigger) {
-        return updateJob(id, action, data, trigger, null);
+        return updateJob(uri, id, action, data, trigger, null);
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, CronTriggerInfo trigger) {
-        return updateJob(id, action, null, trigger, null);
+    public JobInfo updateJob(String uri, String id, String action, CronTriggerInfo trigger) {
+        return updateJob(uri, id, action, null, trigger, null);
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, Map<String, Object> data,
+    public JobInfo updateJob(String uri, String id, String action, Map<String, Object> data,
             CronTriggerInfo trigger) {
-        return updateJob(id, action, data, trigger, null);
+        return updateJob(uri, id, action, data, trigger, null);
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, URL callback) {
-        return updateJob(id, action, (Map<String, Object>) null, callback);
+    public JobInfo updateJob(String uri, String id, String action, URL callback) {
+        return updateJob(uri, id, action, (Map<String, Object>) null, callback);
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, Map<String, Object> data, URL callback) {
+    public JobInfo updateJob(String uri, String id, String action, Map<String, Object> data, URL callback) {
         SimpleTriggerInfo trigger = new SimpleTriggerInfo();
         trigger.setRepeatCount(0);
-        return updateJob(id, action, data, trigger, callback);
+        return updateJob(uri, id, action, data, trigger, callback);
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, SimpleTriggerInfo trigger, URL callback) {
-        return updateJob(id, action, null, trigger, callback);
+    public JobInfo updateJob(String uri, String id, String action, SimpleTriggerInfo trigger, URL callback) {
+        return updateJob(uri, id, action, null, trigger, callback);
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, Map<String, Object> data,
+    public JobInfo updateJob(String uri, String id, String action, Map<String, Object> data,
             SimpleTriggerInfo trigger, URL callback) {
         JobInfo jobInfo = new JobInfo();
         jobInfo.setName(id);
         jobInfo.setAction(action);
         jobInfo.setData(data);
         jobInfo.setSimpleTrigger(trigger);
-        return updateJob(jobInfo);
+        return updateJob(uri, jobInfo);
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, CronTriggerInfo trigger, URL callback) {
-        return updateJob(id, action, null, trigger, callback);
+    public JobInfo updateJob(String uri, String id, String action, CronTriggerInfo trigger, URL callback) {
+        return updateJob(uri, id, action, null, trigger, callback);
     }
     
     @Override
-    public JobInfo updateJob(String id, String action, Map<String, Object> data,
+    public JobInfo updateJob(String uri, String id, String action, Map<String, Object> data,
             CronTriggerInfo trigger, URL callback) {
         JobInfo jobInfo = new JobInfo();
         jobInfo.setName(id);
         jobInfo.setAction(action);
         jobInfo.setData(data);
         jobInfo.setCronTrigger(trigger);
-        return updateJob(jobInfo);
+        return updateJob(uri, jobInfo);
     }
     
     @Override
-    public abstract List<String> getJobNames();
+    public abstract List<String> getJobNames(String uri);
     
     @Override
-    public abstract JobInfo getJobInfo(String jobName);
+    public abstract JobInfo getJobInfo(String uri, String jobName);
     
     @Override
-    public abstract JobInfo updateJob(JobInfo jobInfo);
+    public abstract JobInfo updateJob(String uri, JobInfo jobInfo);
     
     @Override
-    public abstract void deleteJob(String jobName);
+    public abstract void deleteJob(String uri, String jobName);
     
     @Override
-    public abstract JobInfo createJob(JobInfo jobInfo);
+    public abstract JobInfo createJob(String uri, JobInfo jobInfo);
     
     public IdGenerator getIdGenerator() {
         return this.idGenerator;
