@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import de.fjobilabs.restjobservice.callbackserver.exceptions.CallbackExecutionException;
 import de.fjobilabs.restjobservice.callbackserver.exceptions.CallbackInstantiationException;
 import de.fjobilabs.restjobservice.callbackserver.exceptions.CallbackNotFoundException;
-
-import de.fjobilabs.springutils.requestidmanager.service.RequestIdService;
+import de.fjobilabs.springutils.web.requestidmanager.service.RequestIdService;
 import de.fjobilabs.springutils.web.resources.RestResource;
 
 /**

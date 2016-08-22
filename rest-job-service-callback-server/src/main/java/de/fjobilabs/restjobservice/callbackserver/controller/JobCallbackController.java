@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.fjobilabs.restjobservice.callbackserver.domain.CallbackInfo;
 import de.fjobilabs.restjobservice.callbackserver.domain.JobCallbackData;
 import de.fjobilabs.restjobservice.callbackserver.service.JobCallbackService;
-import de.fjobilabs.springutils.requestidmanager.service.RequestIdService;
+import de.fjobilabs.springutils.web.requestidmanager.service.RequestIdService;
 import de.fjobilabs.springutils.web.resources.RestResource;
 
 /**

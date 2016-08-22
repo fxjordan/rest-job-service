@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.fjobilabs.restjobservice.domain.JobInfo;
 import de.fjobilabs.restjobservice.service.JobService;
-import de.fjobilabs.springutils.requestidmanager.service.RequestIdService;
+import de.fjobilabs.springutils.web.requestidmanager.service.RequestIdService;
 import de.fjobilabs.springutils.web.resources.RestResource;
 
 /**
