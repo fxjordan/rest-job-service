@@ -17,6 +17,7 @@ import org.springframework.web.client.RestClientException;
 import de.fjobilabs.restjobservice.domain.ExceptionInfo;
 import de.fjobilabs.restjobservice.domain.JobCallbackData;
 import de.fjobilabs.restjobservice.exception.ExceptionHandlerException;
+import de.fjobilabs.restjobservice.service.JobService;
 import de.fjobilabs.springutils.web.client.RestResourceTemplate;
 import de.fjobilabs.springutils.web.resources.RestResource;
 
@@ -31,16 +32,7 @@ public class BackCallingJobListener implements JobListener {
     
     private String name;
     
-    private RestResourceTemplate RestTemplate = new RestResourceTemplate();
-    
-    @Override
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
+    private RestResourceTemplate restResourceTemplate = new RestResourceTemplate();
     
     @Override
     public void jobToBeExecuted(JobExecutionContext context) {
@@ -53,36 +45,53 @@ public class BackCallingJobListener implements JobListener {
     @Override
     public void jobWasExecuted(JobExecutionContext context, JobExecutionException jobException) {
         JobKey jobKey = context.getJobDetail().getKey();
+        // Only handle jobs scheduled by the RestJobService
+        if (!jobKey.getGroup().equals(JobService.JOB_GROUP)) {
+            return;
+        }
+        
+        boolean refireJob = false;
         
         Throwable exception = null;
-        if (jobException != null && jobException.refireImmediately()) {
-            if (jobException.refireImmediately()) {
-                logger.debug("Callback is not called. Job will be re-fired immediatly");
-                return;
-            }
+        if (jobException != null) {
             exception = jobException.getUnderlyingException();
+            refireJob = jobException.refireImmediately();
+        }
+        
+        JobCallbackData callbackData = new JobCallbackData();
+        callbackData.setJobName(jobKey.getName());
+        
+        Job jobInstance = context.getJobInstance();
+        if (jobInstance instanceof RestJob) {
+            RestJob restJob = (RestJob) jobInstance;
+            if (exception == null) {
+                exception = restJob.getException();
+            }
+            applyDataFromRestJob(callbackData, context.getResult(), exception, restJob);
+        } else {
+            applyDataFromDefaultJob(callbackData, context.getResult(), exception);
+        }
+        
+        
+        
+        if (exception == null) {
+            logger.debug("Job " + jobKey + " executed successfully");
+        } else {
+            logger.warn("Job " + jobKey + " failed to execute (result=" + callbackData + ")");
         }
         
         String callbackUrl = context.getMergedJobDataMap().getString("job-callback-url");
         if (callbackUrl == null) {
             logger.debug("Job has no callback");
             return;
+        } else if (refireJob) {
+            logger.debug("Callback is not called. Job is refiring immediately");
         }
         logger.debug("Calling back to url " + callbackUrl);
         
-        JobCallbackData data = new JobCallbackData();
-        data.setJobName(jobKey.getName());
-        
-        Job jobInstance = context.getJobInstance();
-        if (!(jobInstance instanceof RestJob)) {
-            applyDataFromDefaultJob(data, context.getResult(), exception);
-        } else {
-            applyDataFromRestJob(data, context.getResult(), exception, (RestJob) jobInstance);
-        }
-        
         RestResource response;
         try {
-            response = this.RestTemplate.putForResource(callbackUrl, data);
+            response = this.restResourceTemplate.putForResource(callbackUrl, callbackData);
         } catch (RestClientException e) {
             logger.error("Failed to call job callback for job " + jobKey, e);
             return;
@@ -94,21 +103,18 @@ public class BackCallingJobListener implements JobListener {
             break;
         case RestResource.FAIL:
         case RestResource.ERROR:
-            logger.warn("Error whilec callign back (" + response.getData() + ")");
+            logger.error("Error while calling back (" + response.getData() + ")");
             break;
         }
     }
     
     private void applyDataFromRestJob(JobCallbackData data, Object result, Throwable exception,
             RestJob restJob) {
-        Throwable exceptionToHandle = exception;
-        if (exceptionToHandle == null) {
-            exceptionToHandle = restJob.getException();
-        }
-        if (exceptionToHandle != null) {
-            if (!handleException(data, exceptionToHandle, restJob)) {
+        if (exception != null) {
+            if (!handleException(data, exception, restJob)) {
+                logger.error("Unhandled job exception:", exception);
                 data.setStatus(JobCallbackData.ERROR);
-                data.setResult(createExceptionInfo(exceptionToHandle));
+                data.setResult(createExceptionInfo(exception));
             }
         } else {
             data.setStatus(JobCallbackData.SUCCESS);
@@ -186,5 +192,22 @@ public class BackCallingJobListener implements JobListener {
         exceptionInfo.setException(throwable.getClass().getName());
         exceptionInfo.setMessage(throwable.getMessage());
         return exceptionInfo;
+    }
+    
+    @Override
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public RestResourceTemplate getRestResourceTemplate() {
+        return restResourceTemplate;
+    }
+    
+    public void setRestResourceTemplate(RestResourceTemplate restResourceTemplate) {
+        this.restResourceTemplate = restResourceTemplate;
     }
 }

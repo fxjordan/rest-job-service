@@ -38,4 +38,10 @@ public class JobCallbackData {
     public void setResult(Object result) {
         this.result = result;
     }
+    
+    @Override
+    public String toString() {
+        return String.format("JobCallbackData(jobName=%s; status=%s; result=%s)", jobName, status,
+                result);
+    }
 }

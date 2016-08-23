@@ -49,8 +49,9 @@ import de.fjobilabs.restjobservice.quartz.CronExpressionFactoryBean;
  */
 public class JobService {
     
+    public static final String JOB_GROUP = "rest-jobs";
+    
     private static final String DEFAULT_JOB_CONFIG_LOCATION = "jobs.properties";
-    private static final String JOB_GROUP = "rest-jobs";
     
     private static final Logger logger = LoggerFactory.getLogger(JobService.class);
     
