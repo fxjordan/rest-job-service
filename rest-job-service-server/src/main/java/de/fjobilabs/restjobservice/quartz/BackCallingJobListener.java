@@ -17,7 +17,7 @@ import org.springframework.web.client.RestClientException;
 import de.fjobilabs.restjobservice.domain.ExceptionInfo;
 import de.fjobilabs.restjobservice.domain.JobCallbackData;
 import de.fjobilabs.restjobservice.exception.ExceptionHandlerException;
-import de.fjobilabs.restjobservice.service.JobService;
+import de.fjobilabs.restjobservice.service.ServerJobService;
 import de.fjobilabs.springutils.web.client.RestResourceTemplate;
 import de.fjobilabs.springutils.web.resources.RestResource;
 
@@ -46,7 +46,7 @@ public class BackCallingJobListener implements JobListener {
     public void jobWasExecuted(JobExecutionContext context, JobExecutionException jobException) {
         JobKey jobKey = context.getJobDetail().getKey();
         // Only handle jobs scheduled by the RestJobService
-        if (!jobKey.getGroup().equals(JobService.JOB_GROUP)) {
+        if (!jobKey.getGroup().equals(ServerJobService.JOB_GROUP)) {
             return;
         }
         

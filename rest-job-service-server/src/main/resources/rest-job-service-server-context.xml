@@ -38,13 +38,13 @@
 	</bean>
     
     <!-- The main configuration of the job service -->
-	<bean id="jobService" class="de.fjobilabs.restjobservice.service.JobService" >
+	<bean id="serverJobService" class="de.fjobilabs.restjobservice.service.ServerJobService" >
         <property name="scheduler" ref="quartzScheduler" />
 	</bean>
     
-    <!-- The job controller configuration -->
-    <bean id="jobController" class="de.fjobilabs.restjobservice.controller.JobController" >
-        <property name="jobService" ref="jobService" />
-        <property name="jobsRootPath" value="${de.fjobilabs.restjobservice.jobsRootPath:/jobs}" />
+    <!-- Inject server job service into controller from interface module -->
+    <bean id="jobController" class="de.fjobilabs.restjobservice.controller.JobController" 
+        parent="abstractJobController">
+        <property name="jobService" ref="serverJobService" />
     </bean>
 </beans>

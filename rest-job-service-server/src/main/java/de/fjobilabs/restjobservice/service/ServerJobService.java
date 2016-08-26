@@ -47,13 +47,13 @@ import de.fjobilabs.restjobservice.quartz.CronExpressionFactoryBean;
  * @since 01.08.2016 - 23:59:44
  * @version 1.0
  */
-public class JobService {
+public class ServerJobService implements JobService {
     
     public static final String JOB_GROUP = "rest-jobs";
     
     private static final String DEFAULT_JOB_CONFIG_LOCATION = "jobs.properties";
     
-    private static final Logger logger = LoggerFactory.getLogger(JobService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ServerJobService.class);
     
     private Scheduler scheduler;
     private Map<String, Class<?>> jobClasses;
@@ -84,6 +84,22 @@ public class JobService {
         }
     }
     
+    @Override
+    public List<String> getJobNames() {
+        Set<JobKey> jobKeys;
+        try {
+            jobKeys = this.scheduler.getJobKeys(GroupMatcher.groupEquals(JOB_GROUP));
+        } catch (SchedulerException e) {
+            throw new InternalSchedulerException(e);
+        }
+        List<String> jobNames = new ArrayList<>();
+        for (JobKey jobKey : jobKeys) {
+            jobNames.add(jobKey.getName());
+        }
+        return jobNames;
+    }
+    
+    @Override
     public JobInfo getJob(String name) {
         JobKey jobKey = new JobKey(name, JOB_GROUP);
         JobDetail jobDetail;
@@ -117,6 +133,7 @@ public class JobService {
         return jobInfo;
     }
     
+    @Override
     public void createJob(JobInfo jobInfo) {
         JobDetail jobDetail = createJobDetail(jobInfo);
         jobDetail.getJobDataMap().put("job-callback-url", jobInfo.getCallback());
@@ -130,6 +147,7 @@ public class JobService {
         }
     }
     
+    @Override
     public void updateJob(JobInfo jobInfo) {
         JobKey jobKey = new JobKey(jobInfo.getName(), JOB_GROUP);
         
@@ -154,26 +172,13 @@ public class JobService {
         }
     }
     
+    @Override
     public void deleteJob(String name) {
         try {
             scheduler.deleteJob(new JobKey(name, JOB_GROUP));
         } catch (SchedulerException e) {
             throw new InternalSchedulerException(e);
         }
-    }
-    
-    public List<String> getJobNames() {
-        Set<JobKey> jobKeys;
-        try {
-            jobKeys = this.scheduler.getJobKeys(GroupMatcher.groupEquals(JOB_GROUP));
-        } catch (SchedulerException e) {
-            throw new InternalSchedulerException(e);
-        }
-        List<String> jobNames = new ArrayList<>();
-        for (JobKey jobKey : jobKeys) {
-            jobNames.add(jobKey.getName());
-        }
-        return jobNames;
     }
     
     public Scheduler getScheduler() {
