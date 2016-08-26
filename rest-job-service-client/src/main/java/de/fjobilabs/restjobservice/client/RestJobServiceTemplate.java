@@ -100,4 +100,13 @@ public class RestJobServiceTemplate extends AbstractRestJobServiceOperations {
     public void setObjectMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
+    
+    public RestResourceExceptionFactory getRestResourceExceptionFactory() {
+        return restResourceExceptionFactory;
+    }
+    
+    public void setRestResourceExceptionFactory(
+            RestResourceExceptionFactory restResourceExceptionFactory) {
+        this.restResourceExceptionFactory = restResourceExceptionFactory;
+    }
 }
