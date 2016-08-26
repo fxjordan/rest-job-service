@@ -38,7 +38,7 @@ public class JobControllerAdvice {
     }
     
     @ExceptionHandler(JobNotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public RestResource jobNotFound(JobNotFoundException exception) {
         RestResource response = new RestResource();
         response.setRequestId(this.requestIdService.getRequestId());
