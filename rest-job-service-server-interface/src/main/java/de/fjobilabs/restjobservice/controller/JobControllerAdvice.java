@@ -33,6 +33,7 @@ public class JobControllerAdvice {
         response.setRequestId(this.requestIdService.getRequestId());
         response.setStatus(RestResource.FAIL);
         response.setData(exception.getMessage());
+        response.setCode(exception.getCode());
         return response;
     }
     
@@ -43,6 +44,7 @@ public class JobControllerAdvice {
         response.setRequestId(this.requestIdService.getRequestId());
         response.setStatus(RestResource.FAIL);
         response.setData(exception.getMessage());
+        response.setCode(exception.getCode());
         return response;
     }
     
@@ -53,6 +55,7 @@ public class JobControllerAdvice {
         response.setRequestId(this.requestIdService.getRequestId());
         response.setStatus(RestResource.FAIL);
         response.setData(exception.getMessage());
+        response.setCode(exception.getCode());
         return response;
     }
     
@@ -63,6 +66,7 @@ public class JobControllerAdvice {
         response.setRequestId(this.requestIdService.getRequestId());
         response.setStatus(RestResource.FAIL);
         response.setData(exception.getMessage());
+        response.setCode(exception.getCode());
         return response;
     }
     
@@ -73,5 +77,6 @@ public class JobControllerAdvice {
         response.setRequestId(this.requestIdService.getRequestId());
         response.setStatus(RestResource.ERROR);
         response.setData(exception.getMessage());
+        response.setCode(exception.getCode());
         return response;  }
 }
