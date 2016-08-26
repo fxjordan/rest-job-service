@@ -70,7 +70,7 @@ public abstract class AbstractRestJobServiceOperations implements RestJobService
     @Override
     public JobInfo createJob(String uri, String action, Map<String, Object> data, SimpleTriggerInfo trigger,
             URL callback) {
-        return createJob(this.idGenerator.generateId().toString(), action, data, trigger, callback);
+        return createJob(uri, this.idGenerator.generateId().toString(), action, data, trigger, callback);
     }
     
     @Override
@@ -81,7 +81,7 @@ public abstract class AbstractRestJobServiceOperations implements RestJobService
     @Override
     public JobInfo createJob(String uri, String action, Map<String, Object> data, CronTriggerInfo trigger,
             URL callback) {
-        return createJob(this.idGenerator.generateId().toString(), action, data, trigger, callback);
+        return createJob(uri, this.idGenerator.generateId().toString(), action, data, trigger, callback);
     }
     
     @Override
