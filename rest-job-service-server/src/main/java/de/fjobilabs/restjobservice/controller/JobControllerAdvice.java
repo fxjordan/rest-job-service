@@ -20,7 +20,7 @@ import de.fjobilabs.springutils.web.resources.RestResource;
  * @version 1.0
  */
 @RestControllerAdvice
-public class ExceptionControllerAdvice {
+public class JobControllerAdvice {
     
     @Autowired
     private RequestIdService requestIdService;
