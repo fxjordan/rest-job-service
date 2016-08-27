@@ -22,6 +22,9 @@ public class CallbackRestJobServiceTemplate extends RestJobServiceTemplate
     
     private JobCallbackService jobCallbackService;
     
+    public CallbackRestJobServiceTemplate() {
+    }
+    
     public CallbackRestJobServiceTemplate(JobCallbackService jobCallbackService) {
         this.jobCallbackService = jobCallbackService;
     }
